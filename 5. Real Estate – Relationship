@@ -1,0 +1,45 @@
+import numpy as np              # Se importa la biblioteca NumPy, que permite trabajar con arrays y realizar cálculos numéricos.
+import matplotlib.pyplot as plt  # Se importa matplotlib para graficar los datos y la línea de regresión.
+
+# Se crea un array de dos dimensiones llamado 'actividad', que contiene dos conjuntos de datos.
+# La primera fila representa el área de las casas en metros cuadrados, y la segunda fila representa el precio en miles de dólares.
+actividad = np.array([[60 ,75 ,90 ,55 ,100 ,85 ,120 ,80 ,70 ,95 ,110 ,65 ,105 ,130 ,140 ,50 ,160 ,125 ,140 ,135 ,45 ,150 ,125 ,115 ,80 ,90 ,100],
+                      [200 ,250 ,275 ,180 ,320 ,270 ,350 ,260 ,240 ,290 ,330 ,220 ,310 ,370 ,400 ,170 ,420 ,360 ,380 ,370 ,160 ,390 ,340 ,320 ,250 ,275 ,310]])
+
+print(actividad)  # Se imprime el array 'actividad' para verificar los datos.
+
+# Se realiza un ajuste de regresión lineal usando np.polyfit, que devuelve los coeficientes de la recta.
+# El '1' indica que estamos ajustando una línea recta (polinomio de grado 1).
+coef = np.polyfit(actividad[0], actividad[1], 1)
+
+# Desempaquetamos los coeficientes devueltos por np.polyfit: 
+# 'm' es la pendiente de la recta, y 'b' es la intersección con el eje Y.
+m, b = coef
+
+# Se genera un conjunto de valores 'x_new' para X, que son 100 puntos igualmente espaciados 
+# entre el valor mínimo y el máximo de las áreas de las casas.
+x_new = np.linspace(min(actividad[0]), max(actividad[0]), 100)
+
+# Se calculan los valores correspondientes de Y (precios) para la línea de regresión usando la ecuación de la recta: y = mx + b.
+y_new = m * x_new + b
+
+# Se crea una gráfica de dispersión (scatter plot) con los puntos de datos originales (área y precio).
+plt.scatter(actividad[0], actividad[1], color='black', label='Datos originales')
+
+# Se grafica la línea de regresión calculada a partir de los coeficientes 'm' y 'b'.
+plt.plot(x_new, y_new, color='green', label='Línea de regresión')
+
+# Se añade la etiqueta para el eje X, que representa el área de las casas.
+plt.xlabel('X (Area)')
+
+# Se añade la etiqueta para el eje Y, que representa el precio de venta de las casas en miles de dólares.
+plt.ylabel('Y (Price)')
+
+# Se añade una leyenda para indicar qué representan los puntos y la línea.
+plt.legend()
+
+# Se añade un título a la gráfica para describir el análisis que se está visualizando.
+plt.title('5. Real Estate - Relationship between house area (m²) and sale price (in thousands of dollars)')
+
+# Finalmente, se muestra la gráfica con los puntos de datos originales y la línea de regresión.
+plt.show()
